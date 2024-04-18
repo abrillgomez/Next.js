@@ -1,5 +1,6 @@
 import { MessageType } from "@/types/message.types";
 import Link from "next/link";
+import Image from "next/image";
 
 type MessageProps = {
   message: MessageType;
@@ -19,6 +20,15 @@ const Message = ({ message }: MessageProps) => {
           </div>
         </div>
         <p>{message.message}</p>
+        <div>
+          <Image
+            className="rouded-full"
+            src="https://heymondo.es/blog/wp-content/uploads/2022/08/Turquoise-Bay-una-de-las-mejores-playas-de-Australia.jpg.webp"
+            alt="Foto de una playa"
+            width={300}
+            height={300}
+          />
+        </div>
       </div>
     </div>
   );

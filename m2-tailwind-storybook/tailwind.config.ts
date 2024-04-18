@@ -8,7 +8,12 @@ const config: Config = {
     "./src/stories/**/*.{js,ts,jsx,tsx,mdx}",
   ],
   theme: {
-    extend: {},
+    extend: {
+      fontFamily: {
+        title: ["var(--font-alegreya)"],
+        body: ["var(--font-roboto-mulish)"],
+      },
+    },
   },
   fontSize: {
     xs: "14px",

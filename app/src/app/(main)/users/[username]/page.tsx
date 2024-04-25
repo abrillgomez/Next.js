@@ -1,47 +1,27 @@
 import UserTabs from "@/components/users/UserTabs";
+import { getUserData, getUserMessages, getUserMessagesReplies } from "@/services/api.service";
 import Image from "next/image";
 import Link from "next/link";
-import anakin_profile from "../../../../../public/anakin_profile.jpg";
 
-const UserPage = ({ params }: { params: { username: string } }) => {
-  const user = {
-    username: params.username,
-    name: "Anakin Skywalker",
-    bio: "Vengo de Tatooine",
-    followersCount: 15,
-    followingCount: 3,
-    messages: [
-      {
-        name: "Anakin Skywalker",
-        username: "anakin",
-        message: "Segundo mensaje",
-        repliesCount: 13,
-      },
-      {
-        name: "Anakin Skywalker",
-        username: "anakin",
-        message: "Primer mensaje",
-        repliesCount: 13,
-      },
-    ],
-    replies: [
-      {
-        message: "Mi respuesta",
-        repliesCount: 0,
-      },
-    ],
-  };
+const UserPage = async ({ params }: { params: { username: string } }) => {
+
+  const userPromise = getUserData(params.username)
+  const userMessagePromise = getUserMessages(params.username);
+  const userMessageRepliesPromise = getUserMessagesReplies(params.username);
+
+  const [user, userMessage, userMessageReplies] = await Promise.all([userPromise, userMessagePromise, userMessageRepliesPromise]);
 
   return (
     <main className="flex flex-col bg-gray-100 p-8">
       <section className="flex flex-col mb-8">
-        <div className="rounded-full text-center mb-4 block relative w-20 h-20">
+        <div className="text-center mb-4 block relative w-20 h-20">
           <Image
-            src={anakin_profile}
-            alt="Foto de Anakin Skywalker"
-            fill
+            src={user.photoUrl}
             priority
-            placeholder="blur"
+            className="rounded-full"
+            sizes="10vw"
+            fill
+            alt="Anakin"
           />
         </div>
         <h2 className="mb-1">{user.name}</h2>
@@ -51,16 +31,16 @@ const UserPage = ({ params }: { params: { username: string } }) => {
         <div className="mb-4">{user.bio}</div>
         <div className="flex justify-between mb-4">
           <div>
-            <span className="font-semibold">{user.followersCount}</span>
+            <span className="font-semibold">{user.followersCount} </span>
             Seguidores
           </div>
           <div>
-            <span className="font-semibold">{user.followingCount}</span>
+            <span className="font-semibold">{user.followingCount} </span>
             Siguiendo
           </div>
         </div>
       </section>
-      <UserTabs messages={user.messages} replies={[]} />
+      <UserTabs messages={userMessage.content} replies={userMessageReplies.content} />
     </main>
   );
 };

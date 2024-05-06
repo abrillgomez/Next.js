@@ -1,4 +1,6 @@
+import ExploreTrending from "@/components/explore/ExploreTrending";
 import Menu from "@/components/menu/Menu";
+import exploreApi from "@/services/explore/explore.service";
 import { FC, PropsWithChildren } from "react";
 
 const LINKS = [
@@ -8,6 +10,8 @@ const LINKS = [
 ];
 
 const UsersLayout: FC<PropsWithChildren> = ({ children }) => {
+  const hashes = await exploreApi.getTrendingHashtags(0, 3)
+
   return (
     <>
       <div className="w-full h-full grid grid-cols-12 ">
@@ -15,7 +19,7 @@ const UsersLayout: FC<PropsWithChildren> = ({ children }) => {
           <Menu links={LINKS} />
         </div>
         <main className="col-span-6">{children}</main>
-        <div className="col-span-3">FOOTER MAIN</div>
+        <div className="col-span-3"><ExploreTrending hashes={hashes.content} /></div>
       </div>
     </>
   );

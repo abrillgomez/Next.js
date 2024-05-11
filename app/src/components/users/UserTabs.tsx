@@ -1,7 +1,7 @@
-"use client"
-import { MessageType } from "@/types/message.types";
-import Message from "../messages/Messages";
+"use client";
 import { useState } from "react";
+import { MessageType } from "@/types/message.types";
+import Message from "../messages/Message";
 
 enum TabView {
   MESSAGES,

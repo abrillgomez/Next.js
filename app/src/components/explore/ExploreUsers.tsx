@@ -16,7 +16,11 @@ const ExploreUsers = ({ users }: ExploreUsersProps) => {
         style={{ minWidth: 250 }}>
         <h2 className="mb-2">A quien seguir</h2>
         {users.slice(0, 4).map((user, index) => (
-          <UserCard user={user} key={`trending-user-${index}`} layout={UserCardLayout.VERTICAL} /> 
+          <UserCard
+            user={user}
+            key={`trending-user-${index}`}
+            layout={UserCardLayout.VERTICAL}
+          />
         ))}
         {users.length > 4 && (
           <Link href="/explore?type=USERS">

@@ -21,11 +21,11 @@ const ExploreTrending = ({ hashes }: ExploreTrendingProps) => {
             <MessageHashtag hash={hash} />
           </div>
         ))}
-        {hashes.length > 2 &&
+        {hashes.length > 2 && (
           <Link href="/explore?type=HASHTAGS">
             <div className="text-center link-primary">Ver más</div>
           </Link>
-        }
+        )}
       </div>
     </>
   );

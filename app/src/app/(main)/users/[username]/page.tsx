@@ -3,7 +3,7 @@ import userApi from "@/services/users/users.service";
 import Image from "next/image";
 import Link from "next/link";
 
-const UserPage = async ({ params }: { params: { username: string } }) => {
+const UserPage = async ({ params }: { params: { username: string }}) => {
 
   const userPromise = userApi.getUserData(params.username)
   const userMessagePromise = userApi.getUserMessages(params.username);

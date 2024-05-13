@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Alegreya, Mulish } from "next/font/google";
 import "./globals.css";
+import Navbar from "@/components/layout/Navbar";
 
 const alegreya = Alegreya({
   subsets: ["latin"],
@@ -23,8 +24,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${alegreya.variable} ${mulish.variable}`}>
-      <body>
+    <html lang="en">
+      <body
+        className={`${mulish.className} ${mulish.variable} ${alegreya.variable}`}>
+        <Navbar />
         {children}
       </body>
     </html>

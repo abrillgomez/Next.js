@@ -368,6 +368,7 @@ export interface ApiFaqPageFaqPage extends Schema.CollectionType {
     singularName: 'faq-page';
     pluralName: 'faq-pages';
     displayName: 'FAQ Page';
+    description: '';
   };
   options: {
     draftAndPublish: true;
@@ -375,6 +376,8 @@ export interface ApiFaqPageFaqPage extends Schema.CollectionType {
   attributes: {
     title: Attribute.String;
     body: Attribute.Blocks;
+    slug: Attribute.String;
+    ButtonPrimary: Attribute.Component<'buttons.button-primary'>;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;

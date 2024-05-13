@@ -27,7 +27,7 @@ const ExploreTabs = ({ hashtags, users, initialTab }: ExploreTabsProps) => {
   useEffect(() => {
     const type = searchParams.get("type");
     setTab(type ? TabView[type as keyof typeof TabView] : tab);
-  }, []);
+  }, [searchParams, tab]);
 
   return (
     <>

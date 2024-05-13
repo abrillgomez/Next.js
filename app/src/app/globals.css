@@ -3,12 +3,29 @@
 @tailwind utilities;
 
 @layer components {
+  main {
+    @apply w-full;
+    @apply flex;
+    @apply flex-col;
+    @apply justify-center;
+  }
+
   body {
     @apply font-body;
   }
 
+  section {
+    @apply px-4;
+    @apply w-full;
+  }
+
   h1, h2, h3 {
     @apply font-title;
+  }
+
+  h1 {
+    @apply font-bold;
+    @apply text-xl;
   }
 
   h2 {

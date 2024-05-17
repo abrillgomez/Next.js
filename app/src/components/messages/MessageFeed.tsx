@@ -47,7 +47,7 @@ const MessageFeed = ({ initialMessages }: MessageFeedProps) => {
           </p>
         }
         refreshFunction={refresh}
-        pullDownToRefresh
+        pullDownToRefresh={false}
         pullDownToRefreshThreshold={50}
         pullDownToRefreshContent={
           <h3 style={{ textAlign: "center" }}>

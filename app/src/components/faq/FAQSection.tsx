@@ -6,8 +6,6 @@ type FAQSectionProps = {
 };
 
 const FAQSection = ({ sections }: FAQSectionProps) => {
-  console.log("Contenido de sections:", sections);
-
   return (
     <>
       <section>

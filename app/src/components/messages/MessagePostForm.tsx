@@ -4,24 +4,28 @@ import Image from "next/image";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 
+type MessagePostFormTypes = {
+  parentId?: string;
+};
+
 type FormData = {
   message: string
 }
 
-const MessagePostForm = () => {
-  const {register, handleSubmit, resetField, setFocus} = useForm<FormData>()
+const MessagePostForm = ({ parentId }: MessagePostFormTypes) => {
+  const { register, handleSubmit, resetField, setFocus } = useForm<FormData>();
 
   useEffect(() => {
-    setFocus("message")
-  }, [])
+    setFocus("message");
+  }, []);
 
   const onSubmit = async (data: FormData) => {
-    const response = await messageApi.postMessageFeed(data.message)
-    console.log(JSON.stringify(response))
-    resetField("message")
-    setFocus("message")
-  }
-  
+    const response = await messageApi.postMessage(data.message, parentId);
+    console.log(JSON.stringify(response));
+    resetField("message");
+    setFocus("message");
+  };
+
   return (
     <>
       <div className="mb-4 grid grid-cols-12">
@@ -59,6 +63,6 @@ const MessagePostForm = () => {
       </div>
     </>
   );
-}
+};
 
 export default MessagePostForm

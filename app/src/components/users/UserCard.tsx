@@ -25,7 +25,7 @@ type UserCardProps = PropsWithChildren & {
 
 const UserCard = ({ user, layout, children }: UserCardProps) => {
   return (
-    <div className=" mb-4 grid grid-cols-12">
+    <div className="mb-4 grid grid-cols-12">
       <div className="w-full h-full mt-1 text-center mb-4 block relative w-20 h-20 col-span-2 flex items-center justify-center">
         <Image
           src={user.photoUrl}

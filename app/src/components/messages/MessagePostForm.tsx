@@ -21,7 +21,6 @@ const MessagePostForm = ({ parentId }: MessagePostFormTypes) => {
 
   const onSubmit = async (data: FormData) => {
     const response = await messageApi.postMessage(data.message, parentId);
-    console.log(JSON.stringify(response));
     resetField("message");
     setFocus("message");
   };

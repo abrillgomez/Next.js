@@ -3,13 +3,13 @@ import PostCounter from "../counters/PostsCounter";
 import { TrendingHashtag } from "@/types/hash.types";
 
 type MessageHashtagProps = {
-  hash: TrendingHashtag
-}
+  hash: TrendingHashtag;
+};
 
-const MessageHashtag = ({hash}: MessageHashtagProps) => {
+const MessageHashtag = ({ hash }: MessageHashtagProps) => {
   return (
     <>
-      <Link href={`/mensajes?query=${hash.hash}&type=hash`}>
+      <Link href={`?query=${hash.hash?.replace("#", "") ?? ""}&type=hash`}>
         <h4 className="font-semibold cursor-pointer p-1">{hash.hash}</h4>
       </Link>
       <div className="px-1">
@@ -17,6 +17,6 @@ const MessageHashtag = ({hash}: MessageHashtagProps) => {
       </div>
     </>
   );
-}
+};
 
-export default MessageHashtag
+export default MessageHashtag;

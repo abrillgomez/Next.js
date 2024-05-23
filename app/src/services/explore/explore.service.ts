@@ -1,13 +1,13 @@
 import { TrendingUserType } from "@/types/user.types";
-import { httpGetPublic } from "../common/http.service";
 import { TrendingHashtag } from "@/types/hash.types";
+import httpInternalApi from "../common/http.internal.service";
 
 class ExploreAPI {
   getTrendingHashtags = async (
     page: number,
     size: number
   ): Promise<TrendingHashtag> =>
-    httpGetPublic(
+    httpInternalApi.httpGetPublic(
       `/explore/trending`,
       new URLSearchParams({ page: `${page}`, size: `${size}` })
     );
@@ -15,7 +15,7 @@ class ExploreAPI {
     page: number,
     size: number
   ): Promise<TrendingUserType> =>
-    httpGetPublic(
+    httpInternalApi.httpGetPublic(
       `/explore/follow-recommendations`,
       new URLSearchParams({ page: `${page}`, size: `${size}` })
     );

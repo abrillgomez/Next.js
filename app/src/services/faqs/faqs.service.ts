@@ -1,5 +1,5 @@
-import { FAQPageType } from "@/types/faq.types";
 import { StrapiResultType } from "@/types/strapi.types";
+import { FAQPageType } from "@/types/faq.types";
 import { strapiGet } from "../common/strapi.service";
 
 class FAQsAPI {

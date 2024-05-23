@@ -8,14 +8,14 @@ import { FC, PropsWithChildren } from "react";
 const LINKS = [
   { title: "Inicio", href: "/" },
   { title: "Explorar", href: "/explore" },
-  { title: "Perfil", href: "/mi-perfil" },
+  { title: "Perfil", href: "/profile" },
 ];
 
 const UsersLayout: FC<PropsWithChildren> = async ({ children }) => {
-  const hashesPromise = exploreApi.getTrendingHashtags(0, 3)
-  const usersPromise = exploreApi.getFollowRecommendations(0, 5)
+  const hashesPromise = exploreApi.getTrendingHashtags(0, 3);
+  const usersPromise = exploreApi.getFollowRecommendations(0, 5);
 
-  const [hashes, users] = await Promise.all([hashesPromise, usersPromise,]);
+  const [hashes, users] = await Promise.all([hashesPromise, usersPromise]);
 
   return (
     <>
@@ -32,9 +32,7 @@ const UsersLayout: FC<PropsWithChildren> = async ({ children }) => {
             <ExploreUsers users={users.content} />
           </div>
           <Link href="/faq">
-            <div className="link-primary">
-              Preguntas frecuentes
-            </div>
+            <div className="link-primary">Preguntas frecuentes</div>
           </Link>
         </div>
       </div>

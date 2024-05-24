@@ -1,8 +1,6 @@
-import authApi from "@/services/auth/auth.service";
 import { AccessDeniedError } from "@/services/common/http.errors";
 import * as yup from "yup";
-import { createClient } from "redis";
-import { v4 as uuidv4 } from "uuid";
+import authService from "@/services/auth/auth.service";
 
 const schema = yup
   .object({
@@ -11,25 +9,11 @@ const schema = yup
   })
   .required();
 
-const client = createClient({
-  url: "redis://default:SocialNetworkpass@localhost:6379",
-});
-
-client.connect().then(() => {
-  console.log("connected to redis");
-});
-
-const TEN_MINUTES = 60 * 10;
-
 export async function POST(request: Request) {
   const { username, password } = await schema.validate(await request.json());
   try {
-    const loginResponse = await authApi.loginInternal(username, password);
-    const sessionId = uuidv4();
-    client.set(sessionId, loginResponse.accessToken, { EX: TEN_MINUTES });
-    const now = new Date();
-    const expireAt = new Date(now.getTime() + TEN_MINUTES * 1000).toUTCString();
-    const authCookie = `SocialSessionID=${sessionId}; Expires=${expireAt}; Domain=localhost; Secure; HttpOnly; Path=/`;
+    const loginResponse = await authService.authenticate(username, password);
+    const authCookie = `SocialSessionID=${loginResponse.sessionId}; Expires=${loginResponse.expireAt}; Domain=localhost; Secure; HttpOnly; Path=/`;
     return new Response(JSON.stringify(loginResponse.user), {
       status: 200,
       headers: { "Set-Cookie": authCookie },

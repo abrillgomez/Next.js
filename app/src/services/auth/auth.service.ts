@@ -1,26 +1,55 @@
-import httpExternallApi from "../common/http.external.service";
-import httpInternalApi from "../common/http.internal.service";
-import { LoginReponseType } from "@/types/auth.types";
+import { RedisClientType, createClient } from "redis";
+import { AccessDeniedError } from "../common/http.errors";
+import { AuthReponseType } from "@/types/auth.types";
+import { v4 as uuidv4 } from "uuid";
+import authApi from "./auth.api";
 
-class AuthAPI {
-  login = async (
+const TEN_MINUTES = 60 * 10;
+
+class AuthService {
+  private client: RedisClientType;
+
+  constructor() {
+    this.client = createClient({
+      url: "redis://default:SocialNetworkpass@localhost:6379",
+    });
+
+    this.client.connect().then(() => {
+      console.log("connected to redis");
+    });
+  }
+
+  async authenticate(
     username: string,
     password: string
-  ): Promise<LoginReponseType> =>
-    httpExternallApi.httpPost(`/auth/login`, {
-      username: username,
-      password: password,
+  ): Promise<AuthReponseType> {
+    const loginResponse = await authApi.loginInternal(username, password);
+    const sessionId = uuidv4();
+    const now = new Date();
+    const expireAt = new Date(now.getTime() + TEN_MINUTES * 1000).toUTCString();
+    this.client.set(sessionId, loginResponse.accessToken, {
+      EX: TEN_MINUTES,
     });
-  loginInternal = async (
-    username: string,
-    password: string
-  ): Promise<LoginReponseType> =>
-    httpInternalApi.httpPostPublic(`/auth/login`, {
-      username: username,
-      password: password,
-    });
+    return {
+      sessionId: sessionId,
+      expireAt: expireAt,
+      user: loginResponse.user,
+    };
+  }
+
+  async getAccessToken(sessionId?: string): Promise<string> {
+    if (!sessionId)
+      throw new AccessDeniedError("Session ID is not valid anymore.");
+    const accessToken = await this.client.get(sessionId);
+    if (!accessToken)
+      throw new AccessDeniedError("Session ID is not valid anymore.");
+    return accessToken;
+  }
+
+  async getRedisValue(key: string): Promise<string | null> {
+    return await this.client.get(key);
+  }
 }
 
-const authApi = new AuthAPI();
-
-export default authApi;
+const authService = new AuthService();
+export default authService;

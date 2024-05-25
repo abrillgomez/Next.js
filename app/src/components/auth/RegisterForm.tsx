@@ -2,9 +2,13 @@
 
 import { FormProvider, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import * as yup from "yup";
 import SubmitButton from "../form/SubmitButton";
 import InputText from "../form/InputText";
+import RegisterScheme from "@/schemes/register.scheme";
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+import authApi from "@/services/auth/auth.api";
+import { ConflictError } from "@/services/common/http.errors";
 
 type FormData = {
   username: string;
@@ -13,28 +17,30 @@ type FormData = {
   photoUrl: string;
 };
 
-const schema = yup
-  .object({
-    username: yup.string().required(),
-    password: yup.string().required(),
-    name: yup.string().required(),
-    photoUrl: yup.string().required(),
-  })
-  .required();
-
 const RegisterForm = () => {
   const methods = useForm<FormData>({
-    resolver: yupResolver(schema),
+    resolver: yupResolver(RegisterScheme),
   });
+  const router = useRouter();
+  const [serverError, setServerError] = useState<string | null>(null);
+  const { handleSubmit } = methods;
 
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = methods;
+  const onSubmit = async (data: FormData) => {
+    setServerError(null);
+    try {
+      const loginResponse = await authApi.register(data.username, data.password, data.name, data.photoUrl);
+      router.push("/");
+    } catch (e) {
+      if (e instanceof ConflictError) {
+        setServerError("El nombre de usuario ya existe.");
+      } else {
+        setServerError(
+          "Se ha producido un error. Inténtelo de nuevo más tarde."
+        );
+      }
+    }
 
-  const onSubmit = (data: FormData) => {
-    console.log(JSON.stringify(data));
+    return false;
   };
 
   return (
@@ -64,7 +70,7 @@ const RegisterForm = () => {
           label={"Contraseña"}
           fieldName={"password"}
           placeholder={""}
-          type="text"
+          type="password"
           styles="mt-4"
         />
         <SubmitButton
@@ -72,6 +78,7 @@ const RegisterForm = () => {
           styles="mt-4"
           onSubmit={onSubmit}
         />
+        {serverError && <div className="mt-4 text-red-600">{serverError}</div>}
       </form>
     </FormProvider>
   );

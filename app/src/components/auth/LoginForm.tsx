@@ -2,31 +2,24 @@
 
 import { FormProvider, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import * as yup from "yup";
 import SubmitButton from "../form/SubmitButton";
 import InputText from "../form/InputText";
 import authApi from "@/services/auth/auth.api";
 import { AccessDeniedError } from "@/services/common/http.errors";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import LoginScheme from "@/schemes/login.scheme";
 
 type FormData = {
   username: string;
   password: string;
 };
 
-const schema = yup
-  .object({
-    username: yup.string().required(),
-    password: yup.string().required(),
-  })
-  .required();
-
 const LoginForm = () => {
   const router = useRouter();
   const [serverError, setServerError] = useState<string | null>(null);
   const methods = useForm<FormData>({
-    resolver: yupResolver(schema),
+    resolver: yupResolver(LoginScheme),
   });
 
   const { handleSubmit } = methods;

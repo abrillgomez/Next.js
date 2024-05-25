@@ -14,6 +14,12 @@ const nextConfig = {
         port: "",
         pathname: "/**",
       },
+      {
+        protocol: "https",
+        hostname: "i.blogs.es",
+        port: "",
+        pathname: "/**",
+      },
     ],
   },
   async redirects() {

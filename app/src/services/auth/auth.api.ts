@@ -17,6 +17,18 @@ class AuthAPI {
       username: username,
       password: password,
     });
+  register = async (
+    username: string,
+    password: string,
+    name: string,
+    photoUrl: string
+  ): Promise<LoginReponseType> =>
+    httpExternalApi.httpPost(`/auth/register`, {
+      username,
+      password,
+      name,
+      photoUrl,
+    });
   loginInternal = async (
     username: string,
     password: string
@@ -24,6 +36,18 @@ class AuthAPI {
     httpInternalApi.httpPostPublic(`/auth/login`, {
       username: username,
       password: password,
+    });
+  registerInternal = async (
+    username: string,
+    password: string,
+    name: string,
+    photoUrl: string
+  ): Promise<LoginReponseType> =>
+    httpInternalApi.httpPostPublic(`/auth/register`, {
+      username,
+      password,
+      name,
+      photoUrl,
     });
 }
 

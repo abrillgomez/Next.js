@@ -1,4 +1,4 @@
-import { UserType } from "@/types/user.types";
+import { TrendingUserType, UserType } from "@/types/user.types";
 import { PageType } from "@/types/pagination.types";
 import { MessageType } from "@/types/message.types";
 import httpInternalApi from "../common/http.internal.service";
@@ -14,6 +14,14 @@ class UserAPI {
     username: string
   ): Promise<PageType<MessageType>> =>
     httpInternalApi.httpGetPublic(`/users/${username}/messages/replies`);
+  getUserFollowers = async (
+    username: string
+  ): Promise<PageType<TrendingUserType>> =>
+    httpInternalApi.httpGetPublic(`/users/${username}/followers`);
+  getUserFollowing = async (
+    username: string
+  ): Promise<PageType<TrendingUserType>> =>
+    httpInternalApi.httpGetPublic(`/users/${username}/following`);
 }
 
 const userApi = new UserAPI();

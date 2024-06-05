@@ -58,7 +58,7 @@ export class HttpBaseAPI {
       body: JSON.stringify(body),
     });
     if (!res.ok) {
-      console.log(`${res.status} - ${res.statusText}`);
+      console.log(`${res.status} - ${res.statusText} - ${accessToken}`);
       if (res.status === 403) {
         throw new AccessDeniedError("User has no access");
       }

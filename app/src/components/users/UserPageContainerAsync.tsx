@@ -11,11 +11,15 @@ const UserPageContainerAsync = async ({ username }: UserPageContainerProps) => {
   const userPromise = userApi.getUserData(username);
   const userMessagePromise = userApi.getUserMessages(username);
   const userMessageRepliesPromise = userApi.getUserMessagesReplies(username);
+  const userFollowersPromise = userApi.getUserFollowers(username);
+  const userFollowingPromise = userApi.getUserFollowing(username);
 
-  const [user, userMessage, userMessageReplies] = await Promise.all([
+  const [user, userMessage, userMessageReplies, userFollowers, userFollowings] = await Promise.all([
     userPromise,
     userMessagePromise,
     userMessageRepliesPromise,
+    userFollowersPromise,
+    userFollowingPromise,
   ]);
 
   return (
@@ -50,6 +54,8 @@ const UserPageContainerAsync = async ({ username }: UserPageContainerProps) => {
       <UserTabs
         messages={userMessage.content}
         replies={userMessageReplies.content}
+        followers={userFollowers.content}
+        followings={userFollowings.content}
       />
     </main>
   );

@@ -7,7 +7,7 @@ export type LoginReponseType = {
 
 export type AuthReponseType = {
   sessionId: string;
-  expireAt: string;
+  expireAt: number;
   user: UserType;
 };
 

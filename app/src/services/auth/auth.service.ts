@@ -39,13 +39,13 @@ class AuthService {
       name,
       photoUrl
     );
-    return this.buildAuthResponse(loginResponse)
+    return this.buildAuthResponse(loginResponse);
   }
 
   buildAuthResponse(loginResponse: LoginReponseType): AuthReponseType {
     const sessionId = uuidv4();
     const now = new Date();
-    const expireAt = new Date(now.getTime() + TEN_MINUTES * 1000).toUTCString();
+    const expireAt = new Date(now.getTime() + TEN_MINUTES * 1000).getTime();
     this.client.set(sessionId, loginResponse.accessToken, {
       EX: TEN_MINUTES,
     });
@@ -67,6 +67,10 @@ class AuthService {
 
   async getRedisValue(key: string): Promise<string | null> {
     return await this.client.get(key);
+  }
+
+  async logout(sessionId: string): Promise<void> {
+    await this.client.del(sessionId);
   }
 }
 

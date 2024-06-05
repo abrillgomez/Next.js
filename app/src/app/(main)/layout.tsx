@@ -14,7 +14,6 @@ const LINKS = [
 const UsersLayout: FC<PropsWithChildren> = async ({ children }) => {
   const hashesPromise = exploreApi.getTrendingHashtags(0, 3);
   const usersPromise = exploreApi.getFollowRecommendations(0, 5);
-
   const [hashes, users] = await Promise.all([hashesPromise, usersPromise]);
 
   return (

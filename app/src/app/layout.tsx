@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Alegreya, Mulish } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/layout/Navbar";
+import { cookies } from "next/headers";
 
 const alegreya = Alegreya({
   subsets: ["latin"],
@@ -23,11 +24,12 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const loggedUsernameCookie = cookies().get("SocialUsername");
   return (
     <html lang="en">
       <body
         className={`${mulish.className} ${mulish.variable} ${alegreya.variable}`}>
-        <Navbar />
+        <Navbar loggedUsername={loggedUsernameCookie?.value} />
         {children}
       </body>
     </html>

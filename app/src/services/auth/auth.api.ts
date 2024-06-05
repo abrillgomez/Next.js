@@ -29,6 +29,8 @@ class AuthAPI {
       name,
       photoUrl,
     });
+  logout = async (): Promise<LoginReponseType> =>
+    httpExternalApi.httpPost(`/auth/logout`, {});
   loginInternal = async (
     username: string,
     password: string

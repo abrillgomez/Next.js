@@ -19,7 +19,9 @@
     @apply w-full;
   }
 
-  h1, h2, h3 {
+  h1,
+  h2,
+  h3 {
     @apply font-title;
   }
 
@@ -48,6 +50,18 @@
 
   .button-primary:hover {
     @apply bg-blue-500;
+  }
+
+  .button-secondary {
+    @apply rounded-lg;
+    @apply bg-gray-50;
+    @apply text-blue-400;
+    @apply px-6;
+    @apply py-2;
+  }
+
+  .button-secondary:hover {
+    @apply bg-gray-100;
   }
 
   .link-primary {

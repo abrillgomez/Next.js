@@ -23,7 +23,7 @@ const Menu = ({ links }: MenuProps) => {
               className="text-2xl w-full hover:bg-blue-400 hover:text-white">
               <div
                 onClick={() => onGoToLink(link.href)}
-                className="p-2  w-full flex">
+                className="p-2  w-full flex cursor-pointer">
                 {link.title}
               </div>
             </li>

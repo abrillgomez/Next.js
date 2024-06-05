@@ -1,20 +1,24 @@
 "use client";
 import useMessages from "@/app/context/message.context";
+import { UserType } from "@/types/user.types";
 import Image from "next/image";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
+import { useRouter } from "next/navigation";
 
 type MessagePostFormTypes = {
   parentId?: string;
+  currentUser?: UserType;
 };
 
 type FormData = {
-  message: string
-}
+  message: string;
+};
 
-const MessagePostForm = ({ parentId }: MessagePostFormTypes) => {
-  const {postMessage} = useMessages()
+const MessagePostForm = ({ parentId, currentUser }: MessagePostFormTypes) => {
+  const { postMessage } = useMessages();
   const { register, handleSubmit, resetField, setFocus } = useForm<FormData>();
+  const router = useRouter();
 
   useEffect(() => {
     setFocus("message");
@@ -26,14 +30,30 @@ const MessagePostForm = ({ parentId }: MessagePostFormTypes) => {
     setFocus("message");
   };
 
+  const goToLogin = () => {
+    router.push("/login");
+    router.refresh();
+  };
+
+  if (!currentUser) {
+    return (
+      <div className="mb-4 flex flex-col items-center">
+        <h3>Iniciá sesión para escribir un mensaje.</h3>
+        <button
+          className="button-primary w-fit mt-4"
+          onClick={() => goToLogin()}>
+          Iniciar sesión
+        </button>
+      </div>
+    );
+  }
+
   return (
     <>
       <div className="mb-4 grid grid-cols-12">
         <div className="w-full h-full mt-1 text-center mb-4 block relative w-20 h-20 col-span-2 flex items-center justify-center">
           <Image
-            src={
-              "https://i.pinimg.com/564x/1b/2d/c0/1b2dc0ce77080e4a682fbbfd2eb3b0c1.jpg"
-            }
+            src={currentUser.photoUrl}
             priority
             className="rounded-full"
             width={60}
@@ -65,4 +85,4 @@ const MessagePostForm = ({ parentId }: MessagePostFormTypes) => {
   );
 };
 
-export default MessagePostForm
+export default MessagePostForm;

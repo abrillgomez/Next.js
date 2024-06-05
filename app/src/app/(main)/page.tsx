@@ -1,12 +1,17 @@
 import messageApi from "@/services/messages/messages.service";
 import IndexPageContainer from "./page.container";
+import { headers } from "next/headers";
+import userApi from "@/services/users/users.service";
 
 const IndexPage = async ({
   searchParams,
 }: {
   searchParams?: { [key: string]: string | undefined };
 }) => {
-  const messageResponse = searchParams?.query 
+  const accessToken = headers().get("x-social-access-token") ?? null;
+  const currentUser = accessToken? await userApi.getMeInternal(accessToken) : undefined;
+
+  const messageResponse = searchParams?.query
     ? await messageApi.getMessagesByHash(searchParams?.query, 0, 10)
     : await messageApi.getMessageFeed(0, 10);
 
@@ -17,6 +22,7 @@ const IndexPage = async ({
           <IndexPageContainer
             initialQuery={searchParams?.query}
             messageResponse={messageResponse}
+            currentUser={currentUser}
           />
         </section>
       </main>
